@@ -26,7 +26,7 @@ const sms = async (req, res) => {
 
   twiml.message(chatGPTResponse());
 
-  res.type('text/xml').send(twiml.toString());
+  res.send(twiml.toString());
 }
 
 export default sms;
