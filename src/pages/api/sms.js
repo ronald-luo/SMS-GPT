@@ -8,7 +8,7 @@ const openai = new OpenAI({
 // Simplified in-memory message storage
 const messageHistory = {};
 
-async function chatGPTResponse(userMessag, fromNumber) {
+async function chatGPTResponse(userMessage, fromNumber) {
   try {
     const currentTime = Date.now();
     const oneHour = 60 * 60 * 1000; // milliseconds
