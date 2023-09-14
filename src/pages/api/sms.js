@@ -24,10 +24,23 @@ async function chatGPTResponse() {
 const sms = async (req, res) => {
   const twiml = new MessagingResponse();
 
-  twiml.message(chatGPTResponse);
+  twiml.message(chatGPTResponse());
 
   res.type('text/xml').send(twiml.toString());
 }
 
 export default sms;
 
+// Your AccountSID and Auth Token from console.twilio.com
+// const accountSid = process.env.TWILIO_ACCOUNT_SID;
+// const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+// const client = require('twilio')(accountSid, authToken);
+
+// client.messages
+//   .create({
+//     body: 'Hello from twilio-node',
+//     to: '+12345678901', // Text your number
+//     from: '+12345678901', // From a valid Twilio number
+//   })
+//   .then((message) => console.log(message.sid));
