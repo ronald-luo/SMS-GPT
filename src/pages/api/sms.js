@@ -1,9 +1,18 @@
 import OpenAI from 'openai';
 const { MessagingResponse } = require('twilio').twiml;
+const badWordsArray = require('./badWords');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
+// Clean bad words out of the user input
+function cleanInput(input) {
+  const words = input.split(/\s+/);
+  return words
+    .map(word => (badWordsArray.includes(word.toLowerCase()) ? '****' : word))
+    .join(' ');
+}
 
 // Simplified in-memory message storage
 const messageHistory = {};
@@ -69,6 +78,8 @@ const sms = async (req, res) => {
   try {
     const userMessage = req.body.Body;
     const fromNumber = req.body.From;
+
+    userMessage = cleanInput(userMessage);
     const gptResponse = await chatGPTResponse(userMessage, fromNumber);
     
     const twiml = new MessagingResponse();
