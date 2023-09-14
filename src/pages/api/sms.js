@@ -76,7 +76,7 @@ const sms = async (req, res) => {
   }
 
   try {
-    const userMessage = req.body.Body;
+    let userMessage = req.body.Body;
     const fromNumber = req.body.From;
 
     userMessage = cleanInput(userMessage);
