@@ -1,4 +1,4 @@
-// import OpenAI from 'openai';
+import OpenAI from 'openai';
 const { MessagingResponse } = require('twilio').twiml;
 
 const openai = new OpenAI({
@@ -21,12 +21,6 @@ async function chatGPTResponse() {
 };
 
 const sms = async (req, res) => {
-  // const twiml = new MessagingResponse();
-  // twiml.message('testing twilio');
-  // res.type('text/xml').send(twiml.toString());
-
-  console.log('hello there')
-
   const twiml = new MessagingResponse();
   twiml.message(chatGPTResponse());
 
