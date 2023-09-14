@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { MessagingResponse } from "twilio/lib/twiml";
+const { MessagingResponse } = require('twilio').twiml;
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
