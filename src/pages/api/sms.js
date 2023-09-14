@@ -6,26 +6,36 @@ const openai = new OpenAI({
 });
 
 async function chatGPTResponse() {
-  let context = ''
+  try {
+    let context = '';
 
-  const completion = await openai.chat.completions.create({
-    messages: [
-      { role: 'system', content: `${context}` }, 
-      { role: 'user', content: 'Say this is a test' },
-      // { role: 'assistant', content: 'im sorry i cannot do that' }
-    ],
-    model: 'gpt-3.5-turbo',
-  });
+    const completion = await openai.chat.completions.create({
+      messages: [
+        { role: 'system', content: `${context}` },
+        { role: 'user', content: 'Say this is a test' },
+      ],
+      model: 'gpt-3.5-turbo',
+    });
 
-  return (completion.choices[0].message.content);
-};
+    return completion.choices[0].message.content;
+  } catch (error) {
+    console.error('Error in chatGPTResponse:', error);
+    return 'An error occurred.';
+  }
+}
 
 const sms = async (req, res) => {
-  const twiml = new MessagingResponse();
-  twiml.message(chatGPTResponse());
+  try {
+    const gptResponse = await chatGPTResponse();
+    const twiml = new MessagingResponse();
+    twiml.message(`robot: ${gptResponse}`);
 
-  res.setHeader("Content-Type", "text/xml");
-  res.status(200).send(twiml.toString());
-}
+    res.setHeader('Content-Type', 'text/xml');
+    res.status(200).send(twiml.toString());
+  } catch (error) {
+    console.error('Error in sms:', error);
+    res.status(500).send('An error occurred.');
+  }
+};
 
 export default sms;
