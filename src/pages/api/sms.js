@@ -5,14 +5,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function chatGPTResponse() {
+async function chatGPTResponse(userMessage) {
   try {
     let context = '';
 
     const completion = await openai.chat.completions.create({
       messages: [
         { role: 'system', content: `${context}` },
-        { role: 'user', content: 'Say this is a test' },
+        { role: 'user', content: userMessage },
       ],
       model: 'gpt-3.5-turbo',
     });
@@ -26,7 +26,8 @@ async function chatGPTResponse() {
 
 const sms = async (req, res) => {
   try {
-    const gptResponse = await chatGPTResponse();
+    const userMessage = req.body.Body;
+    const gptResponse = await chatGPTResponse(userMessage);
     const twiml = new MessagingResponse();
     twiml.message(`robot: ${gptResponse}`);
 
