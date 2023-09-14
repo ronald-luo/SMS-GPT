@@ -22,11 +22,15 @@ async function chatGPTResponse() {
 };
 
 const sms = async (req, res) => {
+  // const twiml = new MessagingResponse();
+  // twiml.message('testing twilio');
+  // res.type('text/xml').send(twiml.toString());
+
   const twiml = new MessagingResponse();
+  twiml.message('testing twilio');
 
-  twiml.message(chatGPTResponse());
-
-  res.send(twiml.toString());
+  res.writeHead(200, { "Content-Type": "text/xml" });
+  res.end(twiml.toString());
 }
 
 export default sms;
